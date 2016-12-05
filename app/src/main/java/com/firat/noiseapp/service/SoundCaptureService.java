@@ -70,7 +70,9 @@ public class SoundCaptureService extends Service {
                 {
                     soundCapture.startRecording();
                     Thread.sleep(5000);
-                    soundCapture.stopRecording();
+                    String currentFile = soundCapture.stopRecording(); //constructed file name
+                    //gps tagging
+                    //send to server.
                 }
             }
             catch (Exception e)

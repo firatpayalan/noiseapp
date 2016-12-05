@@ -57,7 +57,7 @@ public class SoundCapture {
 
         recordingThread.start();
     }
-    public void stopRecording()
+    public String stopRecording()
     {
         Log.d(TAG, "stop recording");
 
@@ -73,8 +73,11 @@ public class SoundCapture {
         audioRecord = null;
         recordingThread = null;
 
-        copyWavFile(getTempFilename(), getFilename());
+        String outputFile = getFilename();
+        copyWavFile(getTempFilename(), outputFile);
         deleteTempFile();
+
+        return outputFile;
     }
 
     private void deleteTempFile()
