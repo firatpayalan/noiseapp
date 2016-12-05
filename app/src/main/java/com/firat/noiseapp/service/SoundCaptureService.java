@@ -27,7 +27,7 @@ public class SoundCaptureService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "Service started");
-        //timer.scheduleAtFixedRate(new SoundCaptureTimerTask(),0,1000);
+        timer.scheduleAtFixedRate(new SoundCaptureTimerTask(),0,10000);
 
     }
 

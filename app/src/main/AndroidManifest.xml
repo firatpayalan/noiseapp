@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <receiver android:name=".ScreenDetectBReciever">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-            </intent-filter>
         </receiver>
         <service android:name=".service.SoundCaptureService" android:exported="false"/>
     </application>

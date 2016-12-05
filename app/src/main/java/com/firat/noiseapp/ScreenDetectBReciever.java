@@ -9,11 +9,14 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
+import com.firat.noiseapp.service.SoundCaptureTimerTask;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Timer;
 
 /**
  * Created by FIRAT on 04.12.2016.
@@ -21,6 +24,8 @@ import java.io.IOException;
 public class ScreenDetectBReciever extends BroadcastReceiver {
     public static final String TAG = "ScreenDetectBtReceiver";
     public static final int RECORD_TIME=1000*5;
+    private static Timer timer = new Timer();
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,10 +35,18 @@ public class ScreenDetectBReciever extends BroadcastReceiver {
             if (intent.getAction().equals(Intent.ACTION_USER_PRESENT))
             {
                 Log.d(TAG, "screen unlocked");
-                soundCapture.startRecording(context);
-                Thread.sleep(RECORD_TIME);
-                soundCapture.stopRecording(context);
+                timer.scheduleAtFixedRate(new SoundCaptureTimerTask(), 0, 10000); //+5000 ms
+
+//                soundCapture.startRecording(context);
+//                Thread.sleep(RECORD_TIME);
+//                soundCapture.stopRecording(context);
             }
+            else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
+            {
+                Log.d(TAG,"screen locked");
+                timer.cancel();
+            }
+
         }
         catch (Exception e)
         {

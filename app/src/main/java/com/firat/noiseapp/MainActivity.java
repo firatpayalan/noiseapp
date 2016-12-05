@@ -2,6 +2,7 @@ package com.firat.noiseapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        registerReceiver(new ScreenDetectBReciever(), new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        registerReceiver(new ScreenDetectBReciever(), new IntentFilter(Intent.ACTION_USER_PRESENT));
+
         setContentView(R.layout.activity_main);
 //        Intent intent = new Intent(Intent.ACTION_SYNC,null,this, SoundCaptureService.class);
 //        startService(intent);

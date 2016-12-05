@@ -34,7 +34,7 @@ public class SoundCapture {
                 , AudioFormat.ENCODING_PCM_16BIT);
     }
 
-    public void startRecording(final Context context)
+    public void startRecording()
     {
         Log.d(TAG, "start recording");
 
@@ -51,13 +51,13 @@ public class SoundCapture {
         recordingThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                writeAudioDataToFile(context);
+                writeAudioDataToFile();
             }
         },"Recording Thread");
 
         recordingThread.start();
     }
-    public void stopRecording(Context context)
+    public void stopRecording()
     {
         Log.d(TAG, "stop recording");
 
@@ -73,13 +73,13 @@ public class SoundCapture {
         audioRecord = null;
         recordingThread = null;
 
-        copyWavFile(getTempFilename(context), getFilename(context));
-        deleteTempFile(context);
+        copyWavFile(getTempFilename(), getFilename());
+        deleteTempFile();
     }
 
-    private void deleteTempFile(Context context)
+    private void deleteTempFile()
     {
-        File file = new File(getTempFilename(context));
+        File file = new File(getTempFilename());
         file.delete();
     }
 
@@ -171,10 +171,10 @@ public class SoundCapture {
 
 
 
-    private void writeAudioDataToFile(Context context)
+    private void writeAudioDataToFile()
     {
         byte data[] = new byte[bufferSize];
-        String fileName = getTempFilename(context);
+        String fileName = getTempFilename();
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(fileName);
@@ -205,7 +205,7 @@ public class SoundCapture {
         }
     }
 
-    private String getTempFilename(Context context)
+    private String getTempFilename()
     {
         String filepath = Environment.getExternalStorageDirectory().getPath();
 //        String filepath = context.getFilesDir().getPath();
@@ -225,12 +225,12 @@ public class SoundCapture {
         return (file.getAbsolutePath()+"/"+AUDIO_RECORDER_TEMP_FILE);
     }
 
-    private String getFilename(Context context)
+    private String getFilename()
     {
         String filepath = Environment.getExternalStorageDirectory().getPath();
 //        String filepath = context.getFilesDir().getPath();
         File file = new File(filepath,AUDIO_RECORDER_FOLDER);
-        Log.d(TAG,"File location = "+context.getCacheDir()+"/"+AUDIO_RECORDER_FOLDER);
+        Log.d(TAG,"File location = "+filepath+"/"+AUDIO_RECORDER_FOLDER);
         if (!file.exists())
             file.mkdirs();
 
