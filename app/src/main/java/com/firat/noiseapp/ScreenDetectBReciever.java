@@ -21,6 +21,7 @@ import java.util.Timer;
 /**
  * Created by FIRAT on 04.12.2016.
  */
+@Deprecated
 public class ScreenDetectBReciever extends BroadcastReceiver {
     public static final String TAG = "ScreenDetectBtReceiver";
     public static final int RECORD_TIME=1000*5;
@@ -35,7 +36,7 @@ public class ScreenDetectBReciever extends BroadcastReceiver {
             if (intent.getAction().equals(Intent.ACTION_USER_PRESENT))
             {
                 Log.d(TAG, "screen unlocked");
-                timer.scheduleAtFixedRate(new SoundCaptureTimerTask(), 0, 10000); //+5000 ms
+//                timer.scheduleAtFixedRate(new SoundCaptureTimerTask(), 0, 10000); //+5000 ms
 
 //                soundCapture.startRecording(context);
 //                Thread.sleep(RECORD_TIME);
@@ -43,8 +44,8 @@ public class ScreenDetectBReciever extends BroadcastReceiver {
             }
             else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
             {
-                Log.d(TAG,"screen locked");
-                timer.cancel();
+                Log.d(TAG, "screen locked");
+//                timer.cancel();
             }
 
         }

@@ -11,6 +11,7 @@ import java.util.TimerTask;
 /**
  * Created by FIRAT on 04.12.2016.
  */
+@Deprecated
 public class SoundCaptureTimerTask extends TimerTask {
     public static final String TAG = "SoundCaptureTimerTask";
     private SoundCapture soundCapture = null;

@@ -10,6 +10,9 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.firat.noiseapp.service.SoundCaptureService;
 
@@ -22,16 +25,34 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
+    private Button stopButton;
+    private Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerReceiver(new ScreenDetectBReciever(), new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        registerReceiver(new ScreenDetectBReciever(), new IntentFilter(Intent.ACTION_USER_PRESENT));
 
         setContentView(R.layout.activity_main);
-//        Intent intent = new Intent(Intent.ACTION_SYNC,null,this, SoundCaptureService.class);
-//        startService(intent);
-    }
+        final Intent intent = new Intent(Intent.ACTION_SYNC,null,this, SoundCaptureService.class);
+        startService(intent);
 
+        stopButton = (Button)findViewById(R.id.stopButton);
+        startButton = (Button)findViewById(R.id.startButton);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isSuccess = stopService(intent);
+                if (isSuccess)
+                    Toast.makeText(MainActivity.this,"Service Stopped!",Toast.LENGTH_LONG).show();
+            }
+        });
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               startService(intent);
+               Toast.makeText(MainActivity.this,"Service Started!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
 }
