@@ -16,6 +16,7 @@ import java.io.IOException;
 /**
  * Created by FIRAT on 05.12.2016.
  */
+@Deprecated
 public class SoundCapture {
     public static final String TAG = "SoundCapture";
     private AudioRecord audioRecord =null;
@@ -30,7 +31,7 @@ public class SoundCapture {
     public SoundCapture()
     {
         bufferSize = AudioRecord.getMinBufferSize(8000
-                , AudioFormat.CHANNEL_IN_STEREO
+                , AudioFormat.CHANNEL_IN_MONO
                 , AudioFormat.ENCODING_PCM_16BIT);
     }
 
@@ -44,6 +45,7 @@ public class SoundCapture {
                 ,AudioFormat.ENCODING_PCM_16BIT
                 ,bufferSize);
         int recorderState = audioRecord.getState();
+
         if (recorderState == 1)
             audioRecord.startRecording();
 
@@ -51,6 +53,7 @@ public class SoundCapture {
         recordingThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                //analyse dbspl.
                 writeAudioDataToFile();
             }
         },"Recording Thread");
