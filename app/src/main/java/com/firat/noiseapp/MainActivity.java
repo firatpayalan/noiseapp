@@ -17,7 +17,14 @@ import android.widget.Toast;
 import com.firat.noiseapp.model.Noise;
 import com.firat.noiseapp.model.NoiseRequest;
 import com.firat.noiseapp.service.SoundCaptureService;
+import com.firat.noiseapp.util.HttpUtil;
 import com.firat.noiseapp.util.MathNT;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +36,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import im.delight.android.location.SimpleLocation;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +73,33 @@ public class MainActivity extends AppCompatActivity {
                 request.setLongtitude(coordinates.get(1));
                 coordinates.clear();
                 //request object is ready to send web server.
+                JSONObject jsonParams = new JSONObject();
+                HttpEntity entity=null;
+                try {
+                    jsonParams.put("leq",request.getLeq());
+                    jsonParams.put("long",request.getLongtitude());
+                    jsonParams.put("lat", request.getLatitude());
+                    entity = new StringEntity(jsonParams.toString());
+                } catch (Exception e) {
+                    Log.e(TAG, "onClick: EXCEPTION",e.fillInStackTrace() );
+                    e.printStackTrace();
+                }
+                HttpUtil.post(v.getContext(), "/noise", entity, new AsyncHttpResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d(TAG, "onSuccess: "+ statusCode);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Log.d(TAG, "onFailure: "+ statusCode);
+
+                    }
+                });
+                //info sent.
+
+
             }
         });
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     soundCapture.startTask();
                     startLocationTask();
                 } catch (Exception e) {
-                    Log.e(TAG,e.getMessage(),e.fillInStackTrace());
+                    Log.e(TAG, e.getMessage(), e.fillInStackTrace());
                     e.printStackTrace();
                 }
 //               startService(intent);
@@ -129,4 +166,5 @@ public class MainActivity extends AppCompatActivity {
         location.endUpdates();
         super.onPause();
     }
+
 }
