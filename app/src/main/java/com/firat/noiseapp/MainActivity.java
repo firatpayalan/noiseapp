@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     AdvancedSoundCapture soundCapture = new AdvancedSoundCapture();
     private Button stopButton;
     private Button startButton;
+    private Button mapsButton;
     private Timer locationTimer;
     private SimpleLocation location;
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 //        startService(intent);
 
         location = new SimpleLocation(this);
+        mapsButton = (Button)findViewById(R.id.mapsButton);
         stopButton = (Button)findViewById(R.id.stopButton);
         startButton = (Button)findViewById(R.id.startButton);
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +118,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 //               startService(intent);
 //               Toast.makeText(MainActivity.this,"Service Started!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),MapsActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -31,4 +31,13 @@
         android:layout_alignTop="@+id/stopButton"
         android:layout_alignParentEnd="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW NOISE MAP"
+        android:id="@+id/mapsButton"
+        android:layout_marginBottom="108dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
